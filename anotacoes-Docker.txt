@@ -1,0 +1,55 @@
+Projeto em Docker com pythom
+
+1 - gerar requirements.txt
+
+2 - gerar .dockerignore
+
+3 - Gerar variaveis de ambiente
+	- pasta .env_files
+		- file .env-exemple ( retire exemple depois para ficar corretamente)
+			- SECRET-KEY com valores não reais
+			- DEBUG em desemvolvimento é True em produção é False
+			- ALLOWED_HOSTS="127.0.0.1
+
+4 - Settings.py
+	- DEBUG = boll(int(os.getenv('DEBUG', 0)))
+	- ALLOWED_HOSTS = [ 
+			h.strip() h in os.getenv('ALLOWED_HOSTS', '').split(',')
+			if h.strip()
+			]
+			
+5 - configurar arquivos estáticos na raiz e urls - ver depois
+
+6 - Dockerfile
+	FROM python:version-alphine_version
+	LABEL manteiner="email"
+	
+	ENV PYTHONDONTRITEBYTECODE 1
+	
+	ENV PYTHONUNBUFFERED 1
+	
+	COPY ./django /djangoapp (copia a pasta djagoapp para dentro docontainer)
+	COPY ./scripts /scripts (copia a pasta com os arquivos)
+	
+	WORKDIR /djangoapp
+	
+	EXPOSE 8000
+	
+	RUN (executa o comando em shell dentro do container para construir a imagem)
+		/veen/bin/pip install --upgrade pip && \
+		/venv/bin/pip install -r /djangoapp/requirements.txt && \
+		adduser --disabled-password --no-create-home duser && \
+		mkdir -p /data/web/stat && \
+		mkdir -p /data/web/media && \
+		chown -R duser:duser /venv && \ 
+		chown -R duser:duser /data/web/static && \
+		chown -R duser:duser /data/web/media && \  
+		chmod -R 755 /data/web/static && \
+		chmod -R 755 /data/web/media && \
+		chmod -R +x /scripts
+		
+	ENV PATH="/scripts:/env/bin:$PATH"
+	
+	USER duser
+	
+	CMD ["comands.sh"]
