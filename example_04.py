@@ -13,7 +13,8 @@ except:
 
 count = 0
 for line in file_name:
-    if line.startswith('ENV'):
-        count = count + 1
+    l = line.rstrip()
+    if l.startswith('-'):
+        count =+ 1
 
-print('There were', count, 'ENV lines in', file_name)
+print('There were', count, '"-" lines in', file_name)
