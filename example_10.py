@@ -54,3 +54,33 @@ print((0,1,2) < (5, 1, 2))
 print((0, 1, 2000000) < (0, 3, 4))
 print(('Jones', 'Sally') < ('Jones', 'Sam'))
 print(('Jones', 'Sally') > ('Adams', 'Sam'))
+
+# Shorting list of tuples
+d = { 'a': 10, 'b': 1, 'c': 22 }
+# print(d.items())
+# print(sorted(d.items()))
+
+# Using sorted()
+t = sorted(d.items())
+for k, v in sorted(d.items()):
+    print(k, v)
+
+# Sort by values instead of key
+tmp = list()
+for k, v in d.items():
+    tmp.append((v, k))
+print(tmp)
+
+tmp = sorted(tmp, reverse=True)
+print(tmp)
+
+
+# Verificar erros
+# print(sorted( [(v, k) for k,v in counts.items() ], reverse=True))
+
+# lst = []
+# for key, val in counts.items():
+#     newtup = (val, key)
+#     lst.append(newtup)
+# lst = sorted(lst, reverse=True)
+# print(lst)
